@@ -1,0 +1,30 @@
+# criando um docker compose na cersão 3.9
+version: '3.9'
+
+# services são os container que vc vai geral dentro do server
+services:
+  djangoapp:
+    container_name: djangoapp
+    # o buid fala aonde estão os arquivos pra buidar o djangoapp
+    build:
+      # o . faz ele buscar o arquivo Dockerfile na mesma pasta de onde está o compose
+      context: .
+    ports:
+      - 8000:8000
+      # mapeia os volumes. Qualquer coisa que eu mudar nas pastas reflete no container
+    volumes:
+      - ./djangoapp:/djangoapp
+      - ./data/web/static:/data/web/static/
+      - ./data/web/media:/data/web/media/
+    env_file:
+      - ./dotenv_files/.env
+    depends_on:
+      - psql
+      
+  psql:
+    container_name: psql
+    image: postgres:13-alpine
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data/
+    env_file:
+      - ./dotenv_files/.env
