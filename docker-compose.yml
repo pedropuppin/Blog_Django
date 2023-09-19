@@ -3,6 +3,8 @@ version: '3.9'
 
 # services são os container que vc vai geral dentro do server
 services:
+
+  #container django
   djangoapp:
     container_name: djangoapp
     # o buid fala aonde estão os arquivos pra buidar o djangoapp
@@ -20,7 +22,8 @@ services:
       - ./dotenv_files/.env
     depends_on:
       - psql
-      
+     
+  # container postgres    
   psql:
     container_name: psql
     image: postgres:13-alpine
@@ -28,3 +31,26 @@ services:
       - ./data/postgres/data:/var/lib/postgresql/data/
     env_file:
       - ./dotenv_files/.env
+      
+      
+# Cada container é um Linux diferente na versão alpine (versão mais leve e menos)
+
+# COMANDOS do container:
+# docker-compose up --build (builda um container)
+# docker-compose down (fecha)
+
+# docker-compose run --rm <nome-app> <comando>
+# docker-compose run --rm djangoapp python -V 
+# docker-compose run --rm djangoapp pwd 
+# docker-compose run --rm djangoapp python manage.py makemigrations
+
+# vendo variáveis de ambiente
+# docker-compose run --rm djangoapp /bin/sh -c 'echo $PATH'
+# docker-compose run --rm djangoapp /bin/sh -c 'echo $SECRET_KEY'
+
+# com o container RODANDO:
+# docker exec -it djangoapp /bin/sh (entra no container e permite executar comandos diretos)
+
+
+# docker ps (lista containers ativos)
+# docker ps -a  
