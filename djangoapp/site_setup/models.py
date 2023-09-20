@@ -18,11 +18,13 @@ class MenuLink(models.Model):
         blank=True,
         null=True,
         default=None,
+        # related_name='menu' // caso quiser mudar o nome da relação menulink_set
     )
     
     def __str__(self):
         return self.text
     
+#####################################################################
 
 class SiteSetup(models.Model):
     class Meta:
