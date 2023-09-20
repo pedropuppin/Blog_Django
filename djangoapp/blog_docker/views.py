@@ -7,6 +7,7 @@ from blog_docker.models import Post
 PER_PAGE = 9
 
 def index(request):
+    # pega todos os posts
     posts = Post.objects.get_published()
     
     paginator = Paginator(posts, PER_PAGE)
@@ -18,26 +19,6 @@ def index(request):
         'blog/pages/index.html',
         {
             'page_obj': page_obj,
-        }
-    )
-
-def page(request, slug):
-    return render(
-        request,
-        'blog/pages/page.html',
-        {
-            # 'page':
-        }
-    )
-
-def post(request, slug):
-    post = Post.objects.get_published().filter(slug=slug).first()
-
-    return render(
-        request,
-        'blog/pages/post.html',
-        {
-            'post': post,
         }
     )
 
@@ -70,5 +51,26 @@ def category(request, slug):
         'blog/pages/index.html',
         {
             'page_obj': page_obj,
+        }
+    )
+
+def page(request, slug):
+    return render(
+        request,
+        'blog/pages/page.html',
+        {
+            # 'page':
+        }
+    )
+
+def post(request, slug):
+    # pega um post expecífico
+    post = Post.objects.get_published().filter(slug=slug).first()
+
+    return render(
+        request,
+        'blog/pages/post.html',
+        {
+            'post': post,
         }
     )
