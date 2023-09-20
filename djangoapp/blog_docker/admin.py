@@ -66,10 +66,15 @@ class PostAdmin(SummernoteModelAdmin):
     
     # permite salvar o created_by e o updated_by user de cada post
     # esse save só funciona na parte administrativa do post    
-    def save_admin(self, request, obj, form, change):
+    def save_model(self, request, obj, form, change):
         # o 'change' permite saber se a gente tá criando ou alterando
         if change:
             obj.updated_by = request.user
+            # print('UPDATADO')
         else:
             obj.created_by = request.user
+            # print('MUDEI')
+            
+        obj.save()
+
             
