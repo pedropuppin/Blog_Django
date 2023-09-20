@@ -4,6 +4,20 @@
     {% include "blog/partials/_head.html" %}
 </head>
 <body>
+    
+    <!-- header -->
+    {% include "blog/partials/_header.html" %}
+    
+    <!-- conteúdo -->
     {% block content %}{% endblock content %}
+    
+    <!-- pagination -->
+    {% include "blog/partials/_pagination.html" %}
+    
+    <!-- footer -->
+    {% include "blog/partials/_footer.html" %}
+    
+    {% include "blog/partials/_temp.html" %}
+    
 </body>
 </html>
