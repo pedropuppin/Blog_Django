@@ -3,6 +3,7 @@ from utils.rand_slug import slugify_new
 from django.contrib.auth.models import User
 from utils.images import resize_image
 from django_summernote.models import AbstractAttachment 
+from django.urls import reverse
 
 # Create your models here.
 
@@ -93,10 +94,19 @@ class Page(models.Model):
     
 #####################################################################
 
+class PostManager(models.Manager): # é uma forma de evitar repetição de cod
+    def get_published(self): # o self aqui é o objects da classe Post
+        return self.filter(is_published=True).order_by('-pk')
+
+#####################################################################
+
 class Post(models.Model):
     class Meta:
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
+        
+    # objects = models.Manager // manager padrão que pode ser extendido PostManager
+    objects = PostManager()
       
     title = models.CharField(max_length=65)
     slug = models.SlugField(
@@ -155,6 +165,14 @@ class Post(models.Model):
         blank=True,
         default=''
     )
+    
+    # Método que cria um link absoluto. Faz aparecer um 'ver no site' lá no admin
+    def get_absolute_url(self):
+        if not self.is_published:
+            return reverse('blog:index')
+        
+        return reverse('blog:post', args=(self.slug,))
+    
     
     def save(self, *args, **kwargs):
         if not self.slug:

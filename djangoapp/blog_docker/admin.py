@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from blog_docker.models import Tag, Category, Page, Post
+# from django.urls import reverse
+# from django.utils.safestring import mark_safe
 
 # Register your models here.
 
@@ -58,11 +60,21 @@ class PostAdmin(SummernoteModelAdmin):
     list_filter = 'is_published', 'category'
     list_editable = 'is_published',
     ordering = '-id',
-    readonly_fields = 'created_at', 'updated_at', 'created_by', 'updated_by'
+    readonly_fields = 'created_at', 'updated_at', 'created_by', 'updated_by', # 'link'
     prepopulated_fields = {
         "slug": ('title',),
     }
     autocomplete_fields = 'tag', 'category'
+    
+    # método gambiarra que cria um link pra clicar no admin
+    # def link(self, obj):
+    #     if not obj.pk:
+    #         return '-'
+        
+    #     url_do_post = reverse('blog:post', args=(obj.slug,))
+    #     safe_link = mark_safe(f'<a target="_blank" href="{url_do_post}">Ver post</a>')
+        
+    #     return safe_link
     
     # permite salvar o created_by e o updated_by user de cada post
     # esse save só funciona na parte administrativa do post    
