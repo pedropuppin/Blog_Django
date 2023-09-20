@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdmin
 from blog_docker.models import Tag, Category, Page, Post
 
 # Register your models here.
@@ -32,7 +33,8 @@ class CategoryAdmin(admin.ModelAdmin):
 #####################################################################
     
 @admin.register(Page)
-class PageAdmin(admin.ModelAdmin):
+class PageAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
     list_display = 'id', 'title', 'is_published'
     list_display_links = 'title',
     search_fields = 'id', 'slug', 'title', 'content',
@@ -47,7 +49,8 @@ class PageAdmin(admin.ModelAdmin):
 #####################################################################
     
 @admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
     list_display = 'id', 'title', 'is_published', 'created_by'
     list_display_links = 'title',
     search_fields = 'id', 'slug', 'title', 'excerpt' ,'content', 'cover'
@@ -60,3 +63,13 @@ class PostAdmin(admin.ModelAdmin):
         "slug": ('title',),
     }
     autocomplete_fields = 'tag', 'category'
+    
+    # permite salvar o created_by e o updated_by user de cada post
+    # esse save só funciona na parte administrativa do post    
+    def save_admin(self, request, obj, form, change):
+        # o 'change' permite saber se a gente tá criando ou alterando
+        if change:
+            obj.updated_by = request.user
+        else:
+            obj.created_by = request.user
+            
