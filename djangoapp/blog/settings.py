@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from dotenv import load_dotenv
 from pathlib import Path
 import os
 
@@ -17,6 +18,8 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR.parent / 'data' / 'web'
 
+# DOTENV
+load_dotenv(BASE_DIR.parent / 'dotenv_files' / '.env', override=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -48,6 +51,9 @@ INSTALLED_APPS = [
     # summernote
     'django_summernote',
     
+    # django-axes
+    'axes',
+    
     # meus apps
     'blog_docker',
     'site_setup',
@@ -61,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'blog.urls'
@@ -173,3 +181,16 @@ SUMMERNOTE_CONFIG = {
         'attachment_model': 'blog_docker.PostAttachment',
     }
 }
+
+AUTHENTICATION_BACKENDS = [
+    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesStandaloneBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AXES_ENABLED = True
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 2 # 2 hrs
+AXES_RESET_ON_SUCCESS = True
