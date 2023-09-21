@@ -64,7 +64,7 @@ class PostAdmin(SummernoteModelAdmin):
     prepopulated_fields = {
         "slug": ('title',),
     }
-    autocomplete_fields = 'tag', 'category'
+    autocomplete_fields = 'tags', 'category'
     
     # método gambiarra que cria um link pra clicar no admin
     # def link(self, obj):

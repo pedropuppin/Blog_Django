@@ -2,6 +2,8 @@
 <html lang="pt-br">
 <head>
     {% include "blog/partials/_head.html" %}
+    <!-- é uma forma de não ter que carregar imports onde não precisa -->
+    {% block additional_head %}{% endblock additional_head %}
 </head>
 <body>
     <div class="blog-wrapper">

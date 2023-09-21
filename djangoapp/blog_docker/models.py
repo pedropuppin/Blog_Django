@@ -159,8 +159,8 @@ class Post(models.Model):
         default=None,
     )
     
-    # um post tem muitas tag e uma tag muitos posts 
-    tag = models.ManyToManyField(
+    # um post tem muitas tags e uma tag muitos posts 
+    tags = models.ManyToManyField(
         Tag,
         blank=True,
         default=''
