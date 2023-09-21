@@ -8,7 +8,7 @@ No **models.py** criamos o modelo e precisamos registrar ele no admin.py pra ele
 
 ## context_processor.py
 
-Criamos o **context_processor.py** e registramos ele nos TEMPLATES
+Criamos o **context_processor.py** e registramos ele nos **TEMPLATES** do settings.py
 
 - é uma forma de possibilitar um contexto global. Conseguimos chamar o exemple lá no index, mesmo sem ter passado um contexto na view que chama a página.
 - é util para cassos onde vc precisa de alguma coisa disponível em muitos templates de diferentes apps da sua aplicação.

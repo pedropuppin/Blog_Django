@@ -2,7 +2,7 @@ from django.db import models
 from utils.rand_slug import slugify_new
 from django.contrib.auth.models import User
 from utils.images import resize_image
-from django_summernote.models import AbstractAttachment 
+from django_summernote.models import AbstractAttachment # type: ignore
 from django.urls import reverse
 
 # Create your models here.
